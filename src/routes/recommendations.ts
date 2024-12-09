@@ -1,35 +1,38 @@
 // src/routes/recommendations.ts
 
 import { Router } from 'express';
-// import { generateRecommendations } from '../controllers/recommendationsController';
-// import { validateRecommendations } from '../utils/schemas';
-// import { validationResult } from 'express-validator';
+import { generateRecommendations, getRecommendationById, getRecommendations } from '../controllers/recommendations.controller';
+import { catchError, validate } from '../middlewares/validation';
+import expressAsyncHandler from 'express-async-handler';
 
 const router = Router();
 
-/**
- * TODO: Set up the `/recommendations` POST route.
- *
- * Steps:
- * 1. Apply validation middleware to validate the request body.
- * 2. Use the `generateRecommendations` controller to handle the request.
- * 3. Handle validation errors appropriately.
- *
- * Hints:
- * - Use `express-validator` for input validation.
- * - Use `validationResult` to check for validation errors.
- */
+// POST route to create a new recommendation
+// - Validates the request body using 'create:recommendation' schema
+// - Catches errors using catchError middleware
+// - Handles the request asynchronously using the generateRecommendations controller
+router.post(
+  '/',
+  validate('create:recommendation'),
+  catchError,
+  expressAsyncHandler(generateRecommendations)
+);
 
- // Example (from a different context):
+// GET route to fetch all recommendations
+// - Uses the getRecommendations controller to retrieve data
+// - Handles the request asynchronously
+router.get(
+  '/',
+  expressAsyncHandler(getRecommendations)
+);
 
- /*
- router.post('/', validatePostCreation, (req, res) => {
-   const errors = validationResult(req);
-   if (!errors.isEmpty()) {
-     return res.status(400).json({ errors: errors.array() });
-   }
-   generateRecommendations(req, res);
- });
- */
+// GET route to fetch a specific recommendation by its ID
+// - Extracts the ID from the route parameters
+// - Uses the getRecommendationById controller to retrieve the recommendation
+router.get(
+  '/:id',
+  expressAsyncHandler(getRecommendationById)
+);
+
 
 export default router;

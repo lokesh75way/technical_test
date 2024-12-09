@@ -1,26 +1,14 @@
 // src/routes/users.ts
 
 import { Router } from 'express';
-// import { getUserRecommendations } from '../controllers/usersController';
+import { getUserRecommendation } from '../controllers/users.controller';
+import expressAsyncHandler from 'express-async-handler';
 
 const router = Router();
 
-/**
- * TODO: Set up the `/users/:userRef/recommendations` GET route.
- *
- * Steps:
- * 1. Use the `getUserRecommendations` controller to handle the request.
- * 2. Ensure the `userRef` parameter is extracted correctly.
- * 3. Handle any errors appropriately.
- *
- * Hints:
- * - No additional validation middleware is required unless you want to validate `userRef`.
- */
+// GET route to get user's recommendation
+// - Handles the request asynchronously using the getUserRecommendation controller
+router.get('/:userId/recommendations', expressAsyncHandler(getUserRecommendation));
 
- // Example (from a different context):
-
- /*
- router.get('/:userRef/suggestions', getUserRecommendations);
- */
 
 export default router;

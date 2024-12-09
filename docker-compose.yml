@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   app:
@@ -8,9 +8,23 @@ services:
       - .:/usr/src/app
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URI=mongodb://db:27017/technical
+      - LLM_URL=http://wiremock:8080
     depends_on:
       - wiremock
       - db
+
+  frontend:
+    build: ./frontend/.
+    volumes:
+      - .:/usr/src/app/frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_URL=http://app:8000
+    depends_on:
+      - app
 
   wiremock:
     image: wiremock/wiremock:2.35.0
@@ -19,6 +33,11 @@ services:
     volumes:
       - ./wiremock:/home/wiremock
     command: --verbose
+
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
 
 volumes:
   mongo_data:

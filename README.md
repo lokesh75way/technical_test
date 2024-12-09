@@ -277,3 +277,10 @@ npm test
 - **Environment Variables**: For sensitive data and configuration, use environment variables or a configuration management system.
 
 Good luck!
+
+## Run the application
+- All services are configured with docker so just run `docker compose up -d` or with no cache `docker compose buid --no-cache && docker compose up -d`
+- FE will run on http://localhost:3000
+
+## Assumptions
+- For now we authantication is not implemented so I am taking userId from submitted form and storing to cookies, If you update the customer id in form, it will auto update in cookies and then you can only cat get stored data for that user id. 
